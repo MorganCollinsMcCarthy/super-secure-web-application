@@ -36,7 +36,6 @@ public class User {
 
     private boolean active;
 
-    @NotBlank
     private String role;
 
     public int getId() {
