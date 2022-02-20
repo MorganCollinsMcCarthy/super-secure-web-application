@@ -11,8 +11,13 @@ public class ApplicationController {
         return "index page";
     }
 
-    @GetMapping("/testloggedin")
-    public String testLoggedIn() {
-        return "I am logged in";
+    @GetMapping("/user")
+    public String user() {
+        return "User logged in";
+    }
+
+    @GetMapping("/admin")
+    public String admin() {
+        return "Admin logged in";
     }
 }
