@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+<form action="/registration" th:object="${user}" method="POST" enctype="utf8">
+    <input name="first_name" placeholder="Firstname" required th:field="*{first_name}">
+    <input name="surname" placeholder="Firstname" required th:field="*{surname}">
+    <input name="date_of_birth" placeholder="date_of_birth" required th:field="*{date_of_birth}">
+    <input name="phone_number" placeholder="phone_number" required th:field="*{phone_number}">
+    <input name="userName" placeholder="Email" required th:field="*{userName}">
+    <input name="nationality" placeholder="nationality" required th:field="*{nationality}">
+    <input name="ppsn" placeholder="ppsn" required th:field="*{ppsn}">
+    <input name="password" placeholder="password" required th:field="*{password}">
+    <button type="submit">submit</button>
+</form>
+</body>
+</html>
