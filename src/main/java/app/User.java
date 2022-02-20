@@ -23,7 +23,7 @@ public class User {
     private String phone_number;
 
     @NotBlank
-    private String email_address;
+    private String userName;
 
     @NotBlank
     private String nationality;
@@ -38,22 +38,6 @@ public class User {
 
     @NotBlank
     private String role;
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
 
     public int getId() {
         return id;
@@ -95,12 +79,12 @@ public class User {
         this.phone_number = phone_number;
     }
 
-    public String getEmail_address() {
-        return email_address;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setEmail_address(String email_address) {
-        this.email_address = email_address;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getNationality() {
@@ -125,5 +109,21 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
