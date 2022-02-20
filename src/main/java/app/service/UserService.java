@@ -1,5 +1,8 @@
-package app;
+package app.service;
 
+import app.persistence.model.User;
+import app.persistence.repository.UserRepository;
+import app.exception.UserAlreadyExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
