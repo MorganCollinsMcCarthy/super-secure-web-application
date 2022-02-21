@@ -25,7 +25,9 @@ public class Appointment {
     @NotBlank
     private String time;
 
-    @OneToOne(mappedBy = "appointment")
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonIgnoreProperties("appointments")
     private User user;
 
     public int getId() {

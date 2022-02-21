@@ -1,7 +1,11 @@
 package app.persistence.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -38,9 +42,9 @@ public class User {
 
     private String role;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "appointment_id", referencedColumnName = "id")
-    private Appointment appointment;
+    @OneToMany(mappedBy = "user")
+    @JsonIgnoreProperties("centre")
+    private List<Appointment> appointments = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -130,11 +134,11 @@ public class User {
         this.role = role;
     }
 
-    public Appointment getAppointment() {
-        return appointment;
+    public List<Appointment> getAppointments() {
+        return appointments;
     }
 
-    public void setAppointment(Appointment appointment) {
-        this.appointment = appointment;
+    public void setAppointments(List<Appointment> appointments) {
+        this.appointments = appointments;
     }
 }
