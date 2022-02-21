@@ -38,6 +38,10 @@ public class User {
 
     private String role;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "appointment_id", referencedColumnName = "id")
+    private Appointment appointment;
+
     public int getId() {
         return id;
     }
@@ -124,5 +128,13 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public Appointment getAppointment() {
+        return appointment;
+    }
+
+    public void setAppointment(Appointment appointment) {
+        this.appointment = appointment;
     }
 }
