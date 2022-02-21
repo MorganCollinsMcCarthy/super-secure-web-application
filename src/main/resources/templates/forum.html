@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table class="postTable">
+    <tbody>
+    <tr th:each="post : ${posts}" th:id="|row_${post.id}|">
+        <td><textarea rows="15" name="content" th:text="${post.content}"></textarea></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
