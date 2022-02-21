@@ -6,9 +6,9 @@ import app.service.IBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -19,14 +19,14 @@ public class BookingController {
     @Autowired
     private IBookingService bookingService;
 
-    @RequestMapping("/bookAppointment")
+    @GetMapping("/bookAppointment")
     public String listVaccinationCentres(Model model) {
         List<Centre> centres = bookingService.findAllCentres();
         model.addAttribute("centres", centres);
         return "centre";
     }
 
-    @RequestMapping("/bookAppointment/{id}")
+    @GetMapping("/bookAppointment/{id}")
     public String listAvailableAppointments(@PathVariable("id") int id, Model model) {
         List<Appointment> appointments = bookingService.findAllAppointmentsForCentre(id);
         model.addAttribute("appointments", appointments);
