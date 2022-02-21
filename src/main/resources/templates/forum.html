@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -12,7 +12,7 @@
         <td th:text="${post.user.userName}"></text></td>
         <td th:text="${post.content}"></text></td>
     </tr>
-    <tr>
+    <tr sec:authorize="isAuthenticated()">
         <td><textarea rows="5" id="content"></textarea></td>
         <td><button onclick="addPost()">Add Post</button></td>
     </tr>
