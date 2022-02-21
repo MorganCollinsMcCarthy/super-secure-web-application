@@ -4,6 +4,7 @@ import app.persistence.model.User;
 import app.persistence.repository.UserRepository;
 import app.exception.UserAlreadyExistException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService implements IUserService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public User registerNewUserAccount(User user) throws UserAlreadyExistException {
@@ -28,7 +32,7 @@ public class UserService implements IUserService {
         newUser.setUserName(user.getUserName());
         newUser.setNationality(user.getNationality());
         newUser.setPpsn(user.getPpsn());
-        newUser.setPassword(user.getPassword());
+        newUser.setPassword(passwordEncoder.encode(user.getPassword()));
         newUser.setActive(true);
         newUser.setRole("ROLE_USER");
 
