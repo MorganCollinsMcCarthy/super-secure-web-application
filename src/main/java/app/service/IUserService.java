@@ -4,4 +4,5 @@ import app.persistence.model.User;
 
 public interface IUserService {
     User registerNewUserAccount(User user);
+    User getAuthenticatedUser();
 }

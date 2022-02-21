@@ -4,6 +4,7 @@ import app.persistence.model.User;
 import app.persistence.repository.UserRepository;
 import app.exception.UserAlreadyExistException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +38,13 @@ public class UserService implements IUserService {
         newUser.setRole("ROLE_USER");
 
         return userRepository.save(newUser);
+    }
+
+    @Override
+    public User getAuthenticatedUser(){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUserName(username).get();
+        return user;
     }
 
     private boolean userNameExists(String userName) {
