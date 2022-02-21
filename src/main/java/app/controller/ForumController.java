@@ -1,8 +1,7 @@
 package app.controller;
 
 import app.persistence.model.Post;
-import app.persistence.repository.PostRepository;
-import app.service.IUserService;
+import app.service.IForumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,25 +13,18 @@ public class ForumController {
 
 
     @Autowired
-    private PostRepository postRepository;
-
-    @Autowired
-    private IUserService userService;
+    private IForumService forumService;
 
     @GetMapping("/forum")
     public String showForum(Model model) {
-        System.out.println(postRepository.findAll());
-        model.addAttribute("posts",postRepository.findAll());
+        model.addAttribute("posts",forumService.findAll());
         return "forum.html";
     }
 
     @PostMapping("/forum/add")
     public @ResponseBody
     Post addPost(@RequestBody String content) {
-        Post post = new Post();
-        post.setContent(content);
-        post.setUser(userService.getAuthenticatedUser());
-        return postRepository.save(post);
+        return forumService.createNewPost(content);
     }
 }
 
