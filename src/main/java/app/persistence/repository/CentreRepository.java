@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CentreRepository extends JpaRepository<Centre,Integer> {
+    Centre findById(int id);
 }
