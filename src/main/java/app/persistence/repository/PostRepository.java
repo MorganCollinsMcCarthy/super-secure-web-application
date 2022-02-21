@@ -1,9 +1,9 @@
 package app.persistence.repository;
 
-import app.persistence.model.User;
+import app.persistence.model.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PostRepository extends JpaRepository<User,Integer> {
+public interface PostRepository extends JpaRepository<Post,Integer> {
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -8,7 +8,8 @@
 <table class="postTable">
     <tbody>
     <tr th:each="post : ${posts}" th:id="|row_${post.id}|">
-        <td><textarea rows="15" name="content" th:text="${post.content}"></textarea></td>
+        <td th:text="${post.content}"></text></td>
+        <td><textarea rows="5" name="content"></textarea></td>
     </tr>
     </tbody>
 </table>
