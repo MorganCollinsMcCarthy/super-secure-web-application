@@ -25,10 +25,19 @@ public class Appointment {
     @NotBlank
     private String time;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonIgnoreProperties("appointments")
     private User user;
+
+    public Appointment() { }
+
+    public Appointment(Centre centre, String date, String time) {
+        setCentre(centre);
+        setDate(date);
+        setTime(time);
+    }
 
     public int getId() {
         return id;

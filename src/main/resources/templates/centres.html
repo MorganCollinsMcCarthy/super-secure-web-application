@@ -7,7 +7,7 @@
     <div>
         <div>
             <div th:each="centre : ${centres}" th:id="|row_${centre.id}|">
-                <form th:action="@{/bookAppointment/{id}(id=${centre.id})}" method="GET">
+                <form th:action="@{/bookAppointment/{centreId}(centreId=${centre.id})}" method="GET">
                     <button type="submit"><span th:text="${centre.name}"></span></button>
                 </form>
             </div>

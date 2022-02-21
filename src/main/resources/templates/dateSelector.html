@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Book Vaccination</title>
+</head>
+<body>
+<div>
+    <form th:action="@{/bookAppointment/{centreId}/dateSelected(centreId=${centreId})}" method="POST">
+        <input name="date" placeholder="Date" required>
+        <button type="submit">Select</button>
+    </form>
+</div>
+</body>
+</html>

@@ -4,7 +4,3 @@ INSERT INTO posts(content, user_id) VALUES('Test post', 1);
 INSERT INTO centres(name) VALUES('UCD');
 INSERT INTO centres(name) VALUES('Citywest');
 INSERT INTO centres(name) VALUES('Croke Park');
-INSERT INTO appointments(centre_id, date, time) VALUES(1, '20/03/2022', '09:00');
-INSERT INTO appointments(centre_id, date, time) VALUES(1, '20/03/2022', '11:00');
-INSERT INTO appointments(centre_id, date, time) VALUES(2, '20/03/2022', '12:20');
-INSERT INTO appointments(centre_id, date, time) VALUES(3, '23/03/2022', '13:30');
