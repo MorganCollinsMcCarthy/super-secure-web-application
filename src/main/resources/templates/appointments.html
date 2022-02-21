@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Book Vaccination</title>
+</head>
+<body>
+<div>
+    <div>
+        <div th:each="appointment : ${appointments}" th:id="|row_${appointment.id}|">
+            <form th:action="@{/bookAppointment/{centre}(centre=${centre.id})/{appt}(appt=${appointment.id})}" method="GET">
+                <button type="submit"><span th:text="${appointment.date}"></span> <span th:text="${appointment.time}"></span></button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
