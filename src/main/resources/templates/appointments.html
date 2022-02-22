@@ -6,11 +6,12 @@
 <body>
 <div>
     <div>
+        <h2>Available Times for: <span th:text="${appointments[0].date}"></span> in <span th:text="${appointments[0].centre.name}"></span></h2>
         <div th:each="appointment : ${appointments}" th:id="|row_${appointment.id}|">
             <form th:action="@{/bookAppointment/{centreId}(centreId=${centreId})}" method="POST">
                 <input type="hidden" name="date" th:value="${appointment.date}"/>
                 <input type="hidden" name="time" th:value="${appointment.time}"/>
-                <button type="submit"><span th:text="${appointment.date}"></span> <span th:text="${appointment.time}"></span></button>
+                <button type="submit"><span th:text="${appointment.time}"></span></button>
             </form>
         </div>
     </div>
