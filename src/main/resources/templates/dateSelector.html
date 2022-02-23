@@ -5,10 +5,20 @@
 </head>
 <body>
 <div>
-    <form th:action="@{/bookAppointment/{centreId}/dateSelected(centreId=${centreId})}" method="POST">
-        <input type="date" name="date" placeholder="Date" required>
-        <button type="submit">Select</button>
-    </form>
+    <div th:if="${bookingStatus == T(app.service.BookingService.BookingStatus).FIRST OR bookingStatus == T(app.service.BookingService.BookingStatus).SECOND}">
+        <form th:action="@{/bookAppointment/{centreId}/dateSelected(centreId=${centreId})}" method="POST">
+            <input type="date" name="date" placeholder="Date" required>
+            <button type="submit">Select</button>
+        </form>
+    </div>
+    <div th:if="${bookingStatus == T(app.service.BookingService.BookingStatus).APPT_PENDING}">
+        <h2>You already have an upcoming COVID-19 vaccination.</h2>
+        <h5>Click <a href="/activity">here</a> to view details or cancel it.</h5>
+    </div>
+    <div th:if="${bookingStatus == T(app.service.BookingService.BookingStatus).FULLY_VACCINATED}">
+        <h2>Our records show you are fully vaccinated against COVID-19 already.</h2>
+        <h5>Click <a href="/activity">here</a> to view your Vaccination Record.</h5>
+    </div>
 </div>
 </body>
 </html>

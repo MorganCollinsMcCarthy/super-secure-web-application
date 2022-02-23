@@ -11,4 +11,5 @@ public interface IBookingService {
     void assignApptToAuthenticatedUser(int apptId, String date, String time) throws CentreNotFoundException;
     List<Appointment> getAvailableAppts(int centreId, String date) throws CentreNotFoundException;
     void checkIfCentreExists(int centreId) throws CentreNotFoundException;
+    BookingService.BookingStatus checkBookingStatus();
 }

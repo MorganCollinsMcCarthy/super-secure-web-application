@@ -15,6 +15,10 @@ import java.util.List;
 @Service
 @Transactional
 public class BookingService implements IBookingService {
+    public enum BookingStatus {
+        FIRST, SECOND, APPT_PENDING, FULLY_VACCINATED
+    }
+
     @Autowired
     private CentreRepository centreRepository;
 
@@ -67,5 +71,20 @@ public class BookingService implements IBookingService {
     @Override
     public void checkIfCentreExists(int centreId) throws CentreNotFoundException {
         if (centreRepository.findById(centreId) == null) throw new CentreNotFoundException(centreId);
+    }
+
+    @Override
+    public BookingStatus checkBookingStatus() {
+        int numberDosesReceived = userService.getAuthenticatedUser().getNumberOfDoses();
+        List<Appointment> userAppointments = userService.getAuthenticatedUser().getAppointments();
+
+        if (numberDosesReceived == 0 && userAppointments.isEmpty())
+            return BookingStatus.FIRST;
+        else if (numberDosesReceived == 1 && userAppointments.size() == 1)
+            return BookingStatus.SECOND;
+        else if (numberDosesReceived == 2)
+            return BookingStatus.FULLY_VACCINATED;
+
+        return BookingStatus.APPT_PENDING;
     }
 }
