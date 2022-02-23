@@ -58,7 +58,7 @@ public class BookingController {
 
         bookingService.assignApptToAuthenticatedUser(centreId, date, time);
         try {
-            response.sendRedirect("/bookAppointment");
+            response.sendRedirect("/activity");
         } catch (IOException e) {
             e.printStackTrace();
         }

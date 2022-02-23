@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Book Vaccination</title>
+</head>
+<body>
+    <div>
+        <div sec:authorize="!isAuthenticated()">
+            <a href="/login">Login</a>
+            <a href="/registration">Sign Up</a>
+        </div>
+        <div sec:authorize="isAuthenticated()">
+            <a href="/logout">Logout</a>
+            <a href="/bookAppointment">Book Vaccination</a>
+            <a href="/activity">View Activity</a>
+        </div>
+        <a href="/forum">Ask Something</a>
+    </div>
+</body>
+</html>
