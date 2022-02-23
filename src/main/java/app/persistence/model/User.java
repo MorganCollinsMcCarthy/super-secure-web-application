@@ -1,7 +1,5 @@
 package app.persistence.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
@@ -43,7 +41,6 @@ public class User {
     private String role;
 
     @OneToMany(mappedBy = "user")
-    @JsonIgnoreProperties("centre")
     private List<Appointment> appointments = new ArrayList<>();
 
     public int getId() {
