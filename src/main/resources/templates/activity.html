@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>COVID-19 Vaccination Record</title>
+</head>
+<body>
+    <div>
+        <h2>COVID-19 Vaccination Record:</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Centre</th>
+                <th>Dose</th>
+                <th>Received</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="appointment : ${user.appointments}" th:id="|appointmentRow_${appointment.id}|">
+                <td th:text="${appointment.date}"></td>
+                <td th:text="${appointment.time}"></td>
+                <td th:text="${appointment.centre.name}"></td>
+                <td th:text="${appointment.dose}"></td>
+                <td th:text="${appointment.received}"></td>
+                <td>
+                    <form th:if="${!appointment.received}" action="/activity/cancelAppointment" method="POST">
+                        <button type="submit">Cancel</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

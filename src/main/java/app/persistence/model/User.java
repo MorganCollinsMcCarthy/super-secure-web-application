@@ -2,6 +2,7 @@ package app.persistence.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +36,10 @@ public class User {
 
     @NotBlank
     private String password;
+
+    @NotNull
+    @Column(columnDefinition = "integer default 0")
+    private int dose = 0;
 
     private boolean active;
 
@@ -137,5 +142,13 @@ public class User {
 
     public void setAppointments(List<Appointment> appointments) {
         this.appointments = appointments;
+    }
+
+    public int getDose() {
+        return dose;
+    }
+
+    public void setDose(int dose) {
+        this.dose = dose;
     }
 }

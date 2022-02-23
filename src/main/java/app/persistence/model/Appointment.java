@@ -27,6 +27,14 @@ public class Appointment {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
+    @NotNull
+    @Column(columnDefinition = "integer default 1")
+    private int dose = 1;
+
+    @NotNull
+    @Column(columnDefinition = "boolean default false")
+    private boolean received;
+
     public Appointment() { }
 
     public Appointment(Centre centre, String date, String time) {
@@ -73,5 +81,21 @@ public class Appointment {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public int getDose() {
+        return dose;
+    }
+
+    public void setDose(int dose) {
+        this.dose = dose;
+    }
+
+    public boolean isReceived() {
+        return received;
+    }
+
+    public void setReceived(boolean received) {
+        this.received = received;
     }
 }
