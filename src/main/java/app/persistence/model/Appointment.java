@@ -35,12 +35,15 @@ public class Appointment {
     @Column(columnDefinition = "boolean default false")
     private boolean received;
 
+    private String vaccine_received;
+
     public Appointment() { }
 
-    public Appointment(Centre centre, String date, String time) {
+    public Appointment(Centre centre, String date, String time, int dose) {
         setCentre(centre);
         setDate(date);
         setTime(time);
+        setDose(dose);
     }
 
     public int getId() {
@@ -97,5 +100,13 @@ public class Appointment {
 
     public void setReceived(boolean received) {
         this.received = received;
+    }
+
+    public String getVaccine_received() {
+        return vaccine_received;
+    }
+
+    public void setVaccine_received(String vaccine_received) {
+        this.vaccine_received = vaccine_received;
     }
 }

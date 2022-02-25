@@ -49,7 +49,7 @@ public class BookingService implements IBookingService {
     public void assignApptToAuthenticatedUser(int centreId, String date, String time) throws CentreNotFoundException {
         checkIfCentreExists(centreId);
         Centre centre = centreRepository.findById(centreId);
-        Appointment appointment = new Appointment(centre, date, time);
+        Appointment appointment = new Appointment(centre, date, time, checkBookingStatus().ordinal()+1);
         appointment.setUser(userService.getAuthenticatedUser());
         appointmentRepository.save(appointment);
     }
@@ -63,7 +63,7 @@ public class BookingService implements IBookingService {
         for (String time : SLOT_TIMES) {
             Appointment appointment = appointmentRepository.findByCentreAndDateAndTime(centre, date, time);
             if (appointment == null || appointment.getUser() == null)
-                availableAppts.add(new Appointment(centre, date, time));
+                availableAppts.add(new Appointment(centre, date, time, checkBookingStatus().ordinal()+1));
         }
         return availableAppts;
     }

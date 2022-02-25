@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Admin</title>
+    <script type="text/javascript" src="code.js"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+<div class="table-responsive">
+    <table id="appointments" class="table table-striped" style="margin-top: 30px;">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Centre</th>
+            <th>Dose</th>
+            <th>User</th>
+            <th>Received</th>
+            <th>Vaccine Received</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="appointment : ${appointments}" th:id="|row_${appointment.id}|">
+            <td><p th:text="${appointment.id}"></p></td>
+            <td><p th:text="${appointment.date}"></p></td>
+            <td><p th:text="${appointment.time}"></p></td>
+            <td><p th:text="${appointment.centre.name}"></p></td>
+            <td><p th:text="${appointment.dose}"></p></td>
+            <td><p th:text="${appointment.user.userName}"></p></td>
+            <td th:id="|received_${appointment.id}|"><p th:text="${appointment.received}"></p></td>
+            <td>
+                <select th:id="|vaccineReceived_${appointment.id}|" name="vaccine_received">
+                    <option value="" th:selected="${appointment.vaccine_received==''}">None</option>
+                    <option value="pfizer" th:selected="${appointment.vaccine_received=='pfizer'}">Pfizer</option>
+                    <option value="moderna" th:selected="${appointment.vaccine_received=='moderna'}">Moderna</option>
+                </select>
+            </td>
+            <td>
+                <button th:onclick="|updateAppointment(${appointment.id})|" class="btn btn-primary">Update</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

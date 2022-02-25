@@ -24,3 +24,14 @@ function insertPost() {
 
     document.getElementById("content").value="";
 }
+
+function updateAppointment(id) {
+    var xhr = new XMLHttpRequest();
+    var vaccineReceived = document.getElementById("vaccineReceived_" + id).value;
+    xhr.open("POST", "/admin/update?id="+id+"&vaccineReceived="+vaccineReceived);
+    xhr.send();
+    if (vaccineReceived === "")
+        document.getElementById("received_" + id).innerHTML="false";
+    else
+        document.getElementById("received_" + id).innerHTML="true";
+}

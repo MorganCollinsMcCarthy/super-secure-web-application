@@ -15,9 +15,4 @@ public class ApplicationController {
     public String user() {
         return "User logged in";
     }
-
-    @GetMapping("/admin")
-    public String admin() {
-        return "Admin logged in";
-    }
 }
