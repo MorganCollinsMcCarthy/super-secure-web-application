@@ -56,18 +56,6 @@
         </div>
     </div>
 </div>
-<div>
-    <div sec:authorize="!isAuthenticated()">
-        <a href="/login">Login</a>
-        <a href="/registration">Sign Up</a>
-    </div>
-    <div sec:authorize="isAuthenticated()">
-        <a href="/logout">Logout</a>
-        <a href="/bookAppointment">Book Vaccination</a>
-        <a href="/activity">View Activity</a>
-    </div>
-    <a href="/forum">Ask Something</a>
-</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
