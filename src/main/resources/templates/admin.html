@@ -31,19 +31,21 @@
             <td><p th:text="${appointment.dose}"></p></td>
             <td><p th:text="${appointment.user.userName}"></p></td>
             <td th:id="|received_${appointment.id}|"><p th:text="${appointment.received}"></p></td>
-            <td>
-                <select th:id="|vaccineReceived_${appointment.id}|" name="vaccine_received">
+            <td id="vaccineSelector">
+                <select th:if="${!appointment.received}" th:id="|vaccineReceived_${appointment.id}|" name="vaccine_received">
                     <option value="" th:selected="${appointment.vaccine_received==''}">None</option>
                     <option value="pfizer" th:selected="${appointment.vaccine_received=='pfizer'}">Pfizer</option>
                     <option value="moderna" th:selected="${appointment.vaccine_received=='moderna'}">Moderna</option>
                 </select>
+                <p th:if="${appointment.received}" th:text="${appointment.vaccine_received}"></p>
             </td>
-            <td>
-                <button th:onclick="|updateAppointment(${appointment.id})|" class="btn btn-primary">Update</button>
+            <td id="button">
+                <button th:if="${!appointment.received}" th:onclick="|updateAppointment(${appointment.id}, ${appointment.dose})|" class="btn btn-primary">Update</button>
             </td>
         </tr>
         </tbody>
     </table>
+    <p id="message"></p>
 </div>
 </body>
 </html>

@@ -14,6 +14,7 @@ import javax.transaction.Transactional;
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment,Integer> {
     Appointment findByCentreAndDateAndTime(Centre centre, String date, String time);
+    Appointment findById(int id);
 
     @Transactional
     @Modifying

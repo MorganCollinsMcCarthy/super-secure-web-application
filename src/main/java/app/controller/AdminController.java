@@ -1,5 +1,6 @@
 package app.controller;
 
+import app.exception.CentreNotFoundException;
 import app.service.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,7 +23,7 @@ public class AdminController {
 
     @PostMapping("/admin/update")
     public @ResponseBody
-    int updateAppointment(@RequestParam int id, @RequestParam String vaccineReceived) {
+    int updateAppointment(@RequestParam int id, @RequestParam String vaccineReceived) throws CentreNotFoundException {
         adminService.updateApptVaccineReceived(id, vaccineReceived);
         return id;
     }
