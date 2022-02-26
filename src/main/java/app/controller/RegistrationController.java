@@ -1,5 +1,6 @@
 package app.controller;
 
+import app.exception.UserAgeException;
 import app.exception.UserAlreadyExistException;
 import app.service.IUserService;
 import app.persistence.model.User;
@@ -37,6 +38,10 @@ public class RegistrationController {
         } catch (final UserAlreadyExistException uaeEx) {
             ModelAndView mav = new ModelAndView("registration", "user", user);
             mav.addObject("error", "An account for that username/email already exists.");
+            return mav;
+        } catch (final UserAgeException uaeEx) {
+            ModelAndView mav = new ModelAndView("registration", "user", user);
+            mav.addObject("error", "Age must be over 18 years to register.");
             return mav;
         }
         ModelAndView mav = new ModelAndView("registration", "user", user);
