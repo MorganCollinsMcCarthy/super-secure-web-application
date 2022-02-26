@@ -2,6 +2,8 @@ package app.persistence.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "posts")
@@ -16,6 +18,11 @@ public class Post {
 
     @NotBlank
     private String content;
+
+    @ElementCollection // 1
+    @CollectionTable(name = "replies", joinColumns = @JoinColumn(name = "id")) // 2
+    @Column(name = "reply") // 3
+    public List<String> replies = new ArrayList<>();
 
     public int getId() {
         return id;

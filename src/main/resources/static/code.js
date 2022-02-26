@@ -1,9 +1,15 @@
-function addPost() {
+function addReply(id) {
+    var reply = document.getElementById("reply").value;
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "admin/forum/reply?id="+id+"&reply="+reply);
+    xhr.send()
+}
 
+function addPost() {
     var content = document.getElementById("content").value;
 
     var xhr = new XMLHttpRequest();
-    xhr.onload=insertPost;
+    //xhr.onload=insertPost;
     xhr.open("POST", "/forum/add");
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(content);
