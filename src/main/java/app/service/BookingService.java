@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,5 +89,25 @@ public class BookingService implements IBookingService {
             return BookingStatus.FULLY_VACCINATED;
 
         return BookingStatus.APPT_PENDING;
+    }
+
+    @Override
+    public boolean isFutureDate(String date) {
+        LocalDate dateFormatted = convertStringDate(date);
+        return LocalDate.now().isBefore(dateFormatted);
+    }
+
+    @Override
+    public boolean is21DaysBetweenDoses(String date) {
+        if (checkBookingStatus().equals(BookingStatus.SECOND)) {
+            String firstDoseDate = userService.getAuthenticatedUser().getAppointments().get(0).getDate();
+            return Period.between(convertStringDate(firstDoseDate), convertStringDate(date)).getDays() >= 21;
+        }
+        return true;
+    }
+
+    private LocalDate convertStringDate(String date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return LocalDate.parse(date, formatter);
     }
 }

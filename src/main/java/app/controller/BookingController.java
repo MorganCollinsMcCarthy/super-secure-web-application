@@ -1,7 +1,9 @@
 package app.controller;
 
 import app.exception.CentreNotFoundException;
+import app.exception.DateMustBeFutureException;
 import app.exception.IllegalBookingException;
+import app.exception.SecondDoseAfter3WeeksException;
 import app.persistence.model.Appointment;
 import app.persistence.model.Centre;
 import app.service.BookingService;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -31,6 +34,7 @@ public class BookingController {
     @GetMapping("/bookAppointment/{centreId}")
     public String selectDate(@PathVariable("centreId") int centreId, Model model) throws CentreNotFoundException {
         model.addAttribute("bookingStatus", bookingService.checkBookingStatus());
+        model.addAttribute("minDate", LocalDate.now().plusDays(1));
         bookingService.checkIfCentreExists(centreId);
         model.addAttribute("centreId", centreId);
         return "dateSelector";
@@ -40,6 +44,17 @@ public class BookingController {
     public String listAvailableAppointments(@PathVariable("centreId") int centreId,
                                             @RequestParam("date") String date, Model model) throws CentreNotFoundException {
         model.addAttribute("bookingStatus", bookingService.checkBookingStatus());
+        model.addAttribute("minDate", LocalDate.now().plusDays(1));
+
+        if (!bookingService.isFutureDate(date)) {
+            model.addAttribute("error", new DateMustBeFutureException(date).getMessage());
+            return "dateSelector";
+        }
+        else if (!bookingService.is21DaysBetweenDoses(date)) {
+            model.addAttribute("error", new SecondDoseAfter3WeeksException(date).getMessage());
+            return "dateSelector";
+        }
+
         List<Appointment> appointments = bookingService.getAvailableAppts(centreId, date);
         model.addAttribute("centreId", centreId);
         model.addAttribute("appointments", appointments);

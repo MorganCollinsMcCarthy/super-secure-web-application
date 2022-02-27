@@ -5,9 +5,12 @@
 </head>
 <body>
 <div>
+    <div th:if="${error}" class="mb-3">
+        <h1 class="alert alert-danger" th:text="${error}"></h1>
+    </div>
     <div th:if="${bookingStatus == T(app.service.BookingService.BookingStatus).FIRST OR bookingStatus == T(app.service.BookingService.BookingStatus).SECOND}">
         <form th:action="@{/bookAppointment/{centreId}/dateSelected(centreId=${centreId})}" method="POST">
-            <input type="date" name="date" placeholder="Date" required>
+            <input type="date" name="date" placeholder="Date" th:min="${minDate}" required>
             <button type="submit">Select</button>
         </form>
     </div>

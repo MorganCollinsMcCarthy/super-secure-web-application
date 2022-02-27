@@ -12,4 +12,6 @@ public interface IBookingService {
     List<Appointment> getAvailableAppts(int centreId, String date) throws CentreNotFoundException;
     void checkIfCentreExists(int centreId) throws CentreNotFoundException;
     BookingService.BookingStatus checkBookingStatus();
+    boolean isFutureDate(String date);
+    boolean is21DaysBetweenDoses(String date);
 }
