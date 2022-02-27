@@ -1,5 +1,5 @@
 function addReply(id) {
-    var reply = document.getElementById("reply").value;
+    var reply = document.getElementById("reply_"+id).value;
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "admin/forum/reply?id="+id+"&reply="+reply);
     xhr.send()
