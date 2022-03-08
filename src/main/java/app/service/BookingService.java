@@ -18,6 +18,7 @@ import java.util.List;
 @Service
 @Transactional
 public class BookingService implements IBookingService {
+    // Used for validating if a user can book an appointment
     public enum BookingStatus {
         FIRST, SECOND, APPT_PENDING, FULLY_VACCINATED
     }
@@ -31,6 +32,7 @@ public class BookingService implements IBookingService {
     @Autowired
     private IUserService userService;
 
+    // The potential available times on any day
     private static final String[] SLOT_TIMES = {"09:00", "09:15", "09:30", "09:45",
             "10:00", "10:15", "10:30", "10:45",
             "11:00", "11:15", "11:30", "11:45",
@@ -52,9 +54,10 @@ public class BookingService implements IBookingService {
     public void assignApptToAuthenticatedUser(int centreId, String date, String time) throws CentreNotFoundException {
         checkIfCentreExists(centreId);
         Centre centre = centreRepository.findById(centreId);
+        // Create an appointment with the selected centre, data and time
         Appointment appointment = new Appointment(centre, date, time, checkBookingStatus().ordinal()+1);
-        appointment.setUser(userService.getAuthenticatedUser());
-        appointmentRepository.save(appointment);
+        appointment.setUser(userService.getAuthenticatedUser()); // Create relationship between the authenticated user and appt
+        appointmentRepository.save(appointment); // Insert the appointment in the database
     }
 
     @Override
@@ -63,9 +66,12 @@ public class BookingService implements IBookingService {
         availableAppts.clear();
         Centre centre = centreRepository.findById(centreId);
 
+        // Iterate through potential available times and check if each is actually available
         for (String time : SLOT_TIMES) {
+            // Check if an appointment already exists in this centre for the date and time
             Appointment appointment = appointmentRepository.findByCentreAndDateAndTime(centre, date, time);
-            if (appointment == null || appointment.getUser() == null)
+            // If it is null then this time is available
+            if (appointment == null)
                 availableAppts.add(new Appointment(centre, date, time, checkBookingStatus().ordinal()+1));
         }
         return availableAppts;
@@ -78,27 +84,34 @@ public class BookingService implements IBookingService {
 
     @Override
     public BookingStatus checkBookingStatus() {
+        // Check how many doses the user has received and how many appointments are on record for this user
         int numberDosesReceived = userService.getAuthenticatedUser().getNumberOfDoses();
         List<Appointment> userAppointments = userService.getAuthenticatedUser().getAppointments();
 
+        // If unvaccinated AND no appts then user can book 1st dose
         if (numberDosesReceived == 0 && userAppointments.isEmpty())
             return BookingStatus.FIRST;
+        // If 1 dose received AND user only has 1 appt recorded (must be appt for 1st dose) then user can book 2nd dose
         else if (numberDosesReceived == 1 && userAppointments.size() == 1)
             return BookingStatus.SECOND;
+        // If 2 doses received then user is fully vaccinated so cannot book anymore
         else if (numberDosesReceived == 2)
             return BookingStatus.FULLY_VACCINATED;
 
+        // If none of the conditions above are satisfied, then user has an appt pending so cannot book anymore
         return BookingStatus.APPT_PENDING;
     }
 
     @Override
     public boolean isFutureDate(String date) {
+        // Ensure user has selected future date for vaccination
         LocalDate dateFormatted = convertStringDate(date);
         return LocalDate.now().isBefore(dateFormatted);
     }
 
     @Override
     public boolean is21DaysBetweenDoses(String date) {
+        // If user is booking 2nd dose, ensure that it is at least 21 days after 1st dose
         if (checkBookingStatus().equals(BookingStatus.SECOND)) {
             String firstDoseDate = userService.getAuthenticatedUser().getAppointments().get(0).getDate();
             return Period.between(convertStringDate(firstDoseDate), convertStringDate(date)).getDays() >= 21;

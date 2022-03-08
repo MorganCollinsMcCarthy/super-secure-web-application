@@ -19,6 +19,7 @@ public class ActivityService implements IActivityService {
     @Override
     public void cancelAppointmentForUser() {
         for (Appointment appointment : userService.getAuthenticatedUser().getAppointments()) {
+            // Delete the user's upcoming appt (can only have 1 upcoming appt so this will be deleted & they can now book again)
             if (!appointment.isReceived())
                 appointmentRepository.delete(appointment);
         }

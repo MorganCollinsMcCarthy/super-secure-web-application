@@ -48,7 +48,7 @@ public class BookingController {
             return "dateSelector";
         }
         else if (!bookingService.is21DaysBetweenDoses(date)) {
-            model.addAttribute("error", new SecondDoseAfter3WeeksException(date).getMessage());
+            model.addAttribute("error", new SecondDoseAfter3WeeksException().getMessage());
             return "dateSelector";
         }
 
