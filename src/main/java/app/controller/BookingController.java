@@ -1,9 +1,6 @@
 package app.controller;
 
-import app.exception.CentreNotFoundException;
-import app.exception.DateMustBeFutureException;
-import app.exception.IllegalBookingException;
-import app.exception.SecondDoseAfter3WeeksException;
+import app.exception.*;
 import app.persistence.model.Appointment;
 import app.persistence.model.Centre;
 import app.service.BookingService;
@@ -56,6 +53,11 @@ public class BookingController {
         }
 
         List<Appointment> appointments = bookingService.getAvailableAppts(centreId, date);
+        if (appointments == null || appointments.isEmpty()) {
+            model.addAttribute("error", new NoAvailableApptsException(date).getMessage());
+            return "dateSelector";
+        }
+
         model.addAttribute("centreId", centreId);
         model.addAttribute("appointments", appointments);
 

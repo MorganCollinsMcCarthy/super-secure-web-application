@@ -30,9 +30,6 @@
         </div>
     </nav>
     <div class="container px-4 px-lg-5 centre-container">
-        <div th:if="${error}" class="mb-3">
-            <h1 class="alert alert-danger" th:text="${error}"></h1>
-        </div>
         <div th:if="${bookingStatus == T(app.service.BookingService.BookingStatus).FIRST OR bookingStatus == T(app.service.BookingService.BookingStatus).SECOND}" class="search-container">
             <h2>BOOKING <span th:text="${bookingStatus}"></span> DOSE COVID-19 VACCINATION</h2>
             <h4>Next, please select a date for your vaccination:</h4>
@@ -40,6 +37,9 @@
                 <input type="date" name="date" placeholder="Date" th:min="${minDate}" required>
                 <button class="btn btn-primary" type="submit">Select</button>
             </form>
+        </div>
+        <div th:if="${error}" class="mb-3" style="margin-top: 30px">
+            <h1 class="alert alert-danger" th:text="${error}"></h1>
         </div>
         <div th:if="${bookingStatus == T(app.service.BookingService.BookingStatus).APPT_PENDING}">
             <h2>You already have an upcoming COVID-19 vaccination.</h2>
