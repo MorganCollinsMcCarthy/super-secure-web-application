@@ -1,37 +1,69 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title>COVID-19 Vaccination Record</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/styles.css}">
 </head>
 <body>
-    <div>
-        <h2>COVID-19 Vaccination Record:</h2>
-        <table>
-            <thead>
-            <tr>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Centre</th>
-                <th>Dose</th>
-                <th>Received</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="appointment : ${user.appointments}" th:id="|appointmentRow_${appointment.id}|">
-                <td th:text="${appointment.date}"></td>
-                <td th:text="${appointment.time}"></td>
-                <td th:text="${appointment.centre.name}"></td>
-                <td th:text="${appointment.dose}"></td>
-                <td th:text="${appointment.received}"></td>
-                <td>
-                    <form th:if="${!appointment.received}" action="/activity/cancelAppointment" method="POST">
-                        <button type="submit">Cancel</button>
-                    </form>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container px-5">
+            <a class="navbar-brand" href="/">Super Secure Web Application</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
+                    class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="/forum">Forum</a></li>
+                    <li class="nav-item" sec:authorize="hasRole('USER')"><a class="nav-link" href="/bookAppointment">Book
+                        Vaccination</a></li>
+                    <li class="nav-item" sec:authorize="!isAuthenticated()"><a class="nav-link" href="/login">Login</a></li>
+                    <li class="nav-item" sec:authorize="!isAuthenticated()"><a class="nav-link" href="/registration">Sign
+                        Up</a></li>
+                    <li class="nav-item" sec:authorize="isAuthenticated()"><a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container px-4 px-lg-5 centre-container search-container">
+        <div th:if="${user.appointments!=null and !user.appointments.empty}">
+            <h2>COVID-19 VACCINATION RECORD:</h2>
+            <table class="table" style="margin-top: 80px">
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Centre</th>
+                    <th>Dose</th>
+                    <th>Received</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="appointment : ${user.appointments}" th:id="|appointmentRow_${appointment.id}|">
+                    <td th:text="${appointment.date}"></td>
+                    <td th:text="${appointment.time}"></td>
+                    <td th:text="${appointment.centre.name}"></td>
+                    <td th:text="${appointment.dose}"></td>
+                    <td th:text="${appointment.received}"></td>
+                    <td>
+                        <form th:if="${!appointment.received}" action="/activity/cancelAppointment" method="POST">
+                            <button class="btn btn-danger" type="submit">Cancel</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div th:if="${user.appointments==null or user.appointments.empty}">
+            <h2>NO record of COVID-19 vaccination or upcoming appointment.</h2>
+            <h5>Click <a href="/bookAppointment">here</a> to book an appointment for your first dose.</h5>
+        </div>
     </div>
 </body>
 </html>

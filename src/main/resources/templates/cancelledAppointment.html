@@ -1,14 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title>Vaccination Cancelled</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles.css}">
 </head>
 <body>
 <div>
-    <h2>Appointment Cancelled Successfully</h2>
-    <form action="/" method="GET">
-        <button type="submit">Home</button>
-    </form>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container px-5">
+            <a class="navbar-brand" href="/">Super Secure Web Application</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
+                    class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="/forum">Forum</a></li>
+                    <li class="nav-item" sec:authorize="hasRole('USER')"><a class="nav-link" href="/bookAppointment">Book
+                        Vaccination</a></li>
+                    <li class="nav-item" sec:authorize="hasRole('USER')"><a class="nav-link" href="/activity">Recent Activity</a>
+                    <li class="nav-item" sec:authorize="!isAuthenticated()"><a class="nav-link" href="/login">Login</a></li>
+                    <li class="nav-item" sec:authorize="!isAuthenticated()"><a class="nav-link" href="/registration">Sign
+                        Up</a></li>
+                    <li class="nav-item" sec:authorize="isAuthenticated()"><a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container px-4 px-lg-5 centre-container">
+        <h2>Appointment Cancelled Successfully</h2>
+        <h5>Click <a href="/">here</a> to return to home.</h5>
+    </div>
 </div>
 </body>
 </html>

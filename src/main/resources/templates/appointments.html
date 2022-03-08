@@ -1,28 +1,55 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title>Book Vaccination</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles.css}">
 </head>
 <body>
 <div>
-    <div th:if="${bookingStatus == T(app.service.BookingService.BookingStatus).FIRST OR bookingStatus == T(app.service.BookingService.BookingStatus).SECOND}">
-        <h2>Available Times for: <span th:text="${appointments[0].date}"></span> in <span th:text="${appointments[0].centre.name}"></span></h2>
-        <div th:each="appointment : ${appointments}" th:id="|row_${appointment.id}|">
-            <form th:action="@{/bookAppointment/{centreId}(centreId=${centreId})}" method="POST">
-                <input type="hidden" name="date" th:value="${appointment.date}"/>
-                <input type="hidden" name="time" th:value="${appointment.time}"/>
-                <button type="submit"><span th:text="${appointment.time}"></span></button>
-            </form>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container px-5">
+            <a class="navbar-brand" href="/">Super Secure Web Application</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
+                    class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="/forum">Forum</a></li>
+                    <li class="nav-item" sec:authorize="hasRole('USER')"><a class="nav-link" href="/activity">Recent Activity</a>
+                    <li class="nav-item" sec:authorize="!isAuthenticated()"><a class="nav-link" href="/login">Login</a></li>
+                    <li class="nav-item" sec:authorize="!isAuthenticated()"><a class="nav-link" href="/registration">Sign
+                        Up</a></li>
+                    <li class="nav-item" sec:authorize="isAuthenticated()"><a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-    <div th:if="${bookingStatus == T(app.service.BookingService.BookingStatus).APPT_PENDING}">
-        <h2>You already have an upcoming COVID-19 vaccination.</h2>
-        <h5>Click <a href="/activity">here</a> to view details or cancel it.</h5>
-    </div>
-    <div th:if="${bookingStatus == T(app.service.BookingService.BookingStatus).FULLY_VACCINATED}">
-        <h2>Our records show you are fully vaccinated against COVID-19 already.</h2>
-        <h5>Click <a href="/activity">here</a> to view your Vaccination Record.</h5>
-    </div>
+    </nav>
+    <div class="container px-4 px-lg-5 centre-container search-container">
+        <div th:if="${bookingStatus == T(app.service.BookingService.BookingStatus).FIRST OR bookingStatus == T(app.service.BookingService.BookingStatus).SECOND}">
+            <h2>BOOKING <span th:text="${bookingStatus}"></span> DOSE COVID-19 VACCINATION</h2>
+            <h4>Finally, please select one of the available times in <span th:text="${appointments[0].centre.name}"></span> below:</h4>
+            <div th:each="appointment : ${appointments}" th:id="|row_${appointment.id}|">
+                <form th:action="@{/bookAppointment/{centreId}(centreId=${centreId})}" method="POST">
+                    <input type="hidden" name="date" th:value="${appointment.date}"/>
+                    <input type="hidden" name="time" th:value="${appointment.time}"/>
+                    <button class="btn-centre" type="submit"><span th:text="${appointment.time}"></span></button>
+                </form>
+            </div>
+        </div>
+        <div th:if="${bookingStatus == T(app.service.BookingService.BookingStatus).APPT_PENDING}">
+            <h2>You already have an upcoming COVID-19 vaccination.</h2>
+            <h5>Click <a href="/activity">here</a> to view details or cancel it.</h5>
+        </div>
+        <div th:if="${bookingStatus == T(app.service.BookingService.BookingStatus).FULLY_VACCINATED}">
+            <h2>Our records show you are fully vaccinated against COVID-19 already.</h2>
+            <h5>Click <a href="/activity">here</a> to view your Vaccination Record.</h5>
+        </div>
+    <div class="container px-4 px-lg-5">
 </div>
 </body>
 </html>
