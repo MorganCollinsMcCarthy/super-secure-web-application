@@ -13,6 +13,9 @@ public class User {
     private int id;
 
     @NotBlank
+    private String gender;
+
+    @NotBlank
     private String first_name;
 
     @NotBlank
@@ -49,6 +52,14 @@ public class User {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public String getFirst_name() {
