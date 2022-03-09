@@ -11352,3 +11352,7 @@ textarea.form-control-lg {
 .centre-container h4 {
   margin-top: 80px;
 }
+
+.highcharts-credits{
+  opacity: 0;
+}

@@ -43,21 +43,149 @@
         <div class="col-md-6 mb-5">
             <div class="card h-100">
                 <div class="card-body">
-                    <h2 class="card-title">Mens Stats</h2>
-                    <p class="card-text">..............</p>
+                    <div id="age-group-vaccinated"></div>
                 </div>
             </div>
         </div>
         <div class="col-md-6 mb-5">
             <div class="card h-100">
                 <div class="card-body">
-                    <h2 class="card-title">Womens Stats</h2>
-                    <p class="card-text">.............</p>
+                    <div id="container"></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script th:inline="javascript">
+    $(function(){
+        var categories = [
+            '18-29', '30-39', '40-49', '50-64', '65-74',
+            '75-84', '85 + '
+        ];
+
+        Highcharts.chart('age-group-vaccinated', {
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: 'Number Vaccinated By Age Group'
+            },
+            subtitle: {
+            },
+            accessibility: {
+                point: {
+                    valueDescriptionFormat: '{index}. Age {xDescription}, {value}%.'
+                }
+            },
+            xAxis: [{
+                categories: categories,
+                reversed: false,
+                labels: {
+                    step: 1
+                },
+                accessibility: {
+                    description: 'Age (male)'
+                }
+            }, { // mirror axis on right side
+                opposite: true,
+                reversed: false,
+                categories: categories,
+                linkedTo: 0,
+                labels: {
+                    step: 1
+                },
+                accessibility: {
+                    description: 'Age (female)'
+                }
+            }],
+            yAxis: {
+                title: {
+                    text: null
+                },
+                labels: {
+                    formatter: function () {
+                        return Math.abs(this.value);
+                    }
+                },
+                accessibility: {
+                    description: 'Number Vaccinated',
+                }
+            },
+
+            plotOptions: {
+                series: {
+                    stacking: 'normal'
+                }
+            },
+
+            tooltip: {
+                formatter: function () {
+                    return '<b>' + this.series.name + ', age ' + this.point.category + '</b><br/>' +
+                        'Vaccinated: ' + Highcharts.numberFormat(Math.abs(this.point.y), 0);
+                }
+            },
+
+            series: [{
+                name: 'Male',
+                data: [
+                    -10,-30,-23,-56,-78,-34,-23
+                ]
+            }, {
+                name: 'Female',
+                data: [
+                    10,34,34,67,43,90,56
+                ]
+            }]
+        });
+    });
+</script>
+
+<script th:inline="javascript">
+    $(function(){
+        Highcharts.chart('container', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Number Vaccinated By Nationality'
+            },
+            subtitle: {
+            },
+            xAxis: {
+                type: 'category',
+                labels: {
+                    rotation: -45,
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Vaccinated'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            tooltip: {
+                pointFormat: 'Vaccinated: <b>{point.y:.0f}</b>'
+            },
+            series: [{
+                name: 'Vaccinated',
+                data: [
+                    ['Irish', 24],
+                    ['French', 20],
+                    ['German', 14],
+                    ['Chinese', 13],
+                ]
+            }]
+        });
+    });
+</script>
+
 </body>
 </html>
