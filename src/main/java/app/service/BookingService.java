@@ -10,10 +10,11 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 @Service
 @Transactional
@@ -114,7 +115,7 @@ public class BookingService implements IBookingService {
         // If user is booking 2nd dose, ensure that it is at least 21 days after 1st dose
         if (checkBookingStatus().equals(BookingStatus.SECOND)) {
             String firstDoseDate = userService.getAuthenticatedUser().getAppointments().get(0).getDate();
-            return Period.between(convertStringDate(firstDoseDate), convertStringDate(date)).getDays() >= 21;
+            return DAYS.between(convertStringDate(firstDoseDate), convertStringDate(date)) >= 21;
         }
         return true;
     }
