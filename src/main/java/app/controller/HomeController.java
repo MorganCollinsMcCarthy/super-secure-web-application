@@ -16,6 +16,7 @@ public class HomeController {
     public String index(Model model) {
         model.addAttribute("VaccinatedByNationality", homeService.countVaccinatedByNationality());
         model.addAttribute("MaleByAgeGroup", homeService.countMaleByAgeGroup());
+        model.addAttribute("FemaleByAgeGroup", homeService.countFemaleByAgeGroup());
         return "index";
     }
 }

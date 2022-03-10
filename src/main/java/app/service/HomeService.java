@@ -33,7 +33,7 @@ public class HomeService implements IHomeService{
         int[] negCount = {0,0,0,0,0,0,0};
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         for (User user : userRepository.findAllByGender("male")){
-            if(user.getNumberOfDoses()==2) {
+            if(user.getNumberOfDoses() == 2) {
                 LocalDate newDate = LocalDate.parse(user.getDate_of_birth(), formatter);
                 int userAge = Period.between(newDate, LocalDate.now()).getYears();
                 if (userAge >= 18 && userAge <= 29)
@@ -53,5 +53,30 @@ public class HomeService implements IHomeService{
             }
         }
         return negCount;
+    }
+    public int[] countFemaleByAgeGroup() {
+        int[] count = {0,0,0,0,0,0,0};
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        for (User user : userRepository.findAllByGender("female")){
+            if(user.getNumberOfDoses()==2) {
+                LocalDate newDate = LocalDate.parse(user.getDate_of_birth(), formatter);
+                int userAge = Period.between(newDate, LocalDate.now()).getYears();
+                if (userAge >= 18 && userAge <= 29)
+                    count[0] += 1;
+                else if(userAge >= 30 && userAge <= 39)
+                    count[1] += 1;
+                else if(userAge >= 40 && userAge <= 49)
+                    count[2] += 1;
+                else if(userAge >= 50 && userAge <= 64)
+                    count[3] += 1;
+                else if(userAge >= 65 && userAge <= 74)
+                    count[4] += 1;
+                else if(userAge >= 75 && userAge <= 84)
+                    count[5] += 1;
+                else
+                    count[6] += 1;
+            }
+        }
+        return count;
     }
 }
