@@ -30,7 +30,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/bookAppointment/**").hasRole("USER")
                 .antMatchers("/activity/**").hasRole("USER")
                 .antMatchers("/").permitAll()
-                .and().formLogin();
+                .antMatchers("/login").permitAll()
+                .and().formLogin().loginPage("/login").permitAll();
     }
 
     @Bean
