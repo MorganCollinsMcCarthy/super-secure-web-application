@@ -158,6 +158,7 @@
             },
             xAxis: {
                 type: 'category',
+                categories: [[${VaccinatedByNationality.keySet()}]],
                 labels: {
                     rotation: -45,
                 }
@@ -176,12 +177,7 @@
             },
             series: [{
                 name: 'Vaccinated',
-                data: [
-                    ['Irish', 24],
-                    ['French', 20],
-                    ['German', 14],
-                    ['Chinese', 13],
-                ]
+                data: [[${VaccinatedByNationality.values()}]]
             }]
         });
     });
