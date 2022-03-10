@@ -15,6 +15,7 @@ public class HomeController {
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("VaccinatedByNationality", homeService.countVaccinatedByNationality());
+        model.addAttribute("MaleByAgeGroup", homeService.countMaleByAgeGroup());
         return "index";
     }
 }
