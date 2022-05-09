@@ -1,6 +1,7 @@
 package app.service;
 
 import app.exception.CentreNotFoundException;
+import app.exception.SlotAlreadyBookedException;
 import app.persistence.model.Appointment;
 import app.persistence.model.Centre;
 import app.persistence.repository.AppointmentRepository;
@@ -55,6 +56,8 @@ public class BookingService implements IBookingService {
     public void assignApptToAuthenticatedUser(int centreId, String date, String time) throws CentreNotFoundException {
         checkIfCentreExists(centreId);
         Centre centre = centreRepository.findById(centreId);
+        if (checkIfSlotAlreadyBooked(time, date, centreId)) throw new SlotAlreadyBookedException(time, date);
+
         // Create an appointment with the selected centre, data and time
         Appointment appointment = new Appointment(centre, date, time, checkBookingStatus().ordinal()+1);
         appointment.setUser(userService.getAuthenticatedUser()); // Create relationship between the authenticated user and appt
@@ -81,6 +84,12 @@ public class BookingService implements IBookingService {
     @Override
     public void checkIfCentreExists(int centreId) throws CentreNotFoundException {
         if (centreRepository.findById(centreId) == null) throw new CentreNotFoundException(centreId);
+    }
+
+    @Override
+    public boolean checkIfSlotAlreadyBooked(String time, String date, int centreId) {
+        Centre centre = centreRepository.findById(centreId);
+        return appointmentRepository.findByCentreAndDateAndTime(centre, date, time) != null;
     }
 
     @Override

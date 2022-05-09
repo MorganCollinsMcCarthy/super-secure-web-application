@@ -66,12 +66,17 @@ public class BookingController {
 
     @PostMapping("/bookAppointment/{centreId}")
     public String bookAppointment(@PathVariable("centreId") int centreId, @RequestParam(value="date") String date,
-                                  @RequestParam(value="time") String time, HttpServletResponse response)
+                                  @RequestParam(value="time") String time, HttpServletResponse response, Model model)
             throws CentreNotFoundException, IllegalBookingException {
         BookingService.BookingStatus bookingStatus = bookingService.checkBookingStatus();
 
         if (bookingStatus.equals(BookingService.BookingStatus.FULLY_VACCINATED) || bookingStatus.equals(BookingService.BookingStatus.APPT_PENDING))
             throw new IllegalBookingException(bookingStatus);
+
+        if(bookingService.checkIfSlotAlreadyBooked(time, date, centreId)) {
+            model.addAttribute("error", new SlotAlreadyBookedException(time, date).getMessage());
+            return "appointments";
+        }
 
         bookingService.assignApptToAuthenticatedUser(centreId, date, time);
         try {

@@ -14,4 +14,5 @@ public interface IBookingService {
     BookingService.BookingStatus checkBookingStatus();
     boolean isFutureDate(String date);
     boolean is21DaysBetweenDoses(String date);
+    boolean checkIfSlotAlreadyBooked(String time, String date, int centreId);
 }

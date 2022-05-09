@@ -39,6 +39,10 @@
                     <button class="btn-lg btn-outline-dark mb-2" type="submit"><span th:text="${appointment.time}"></span></button>
                 </form>
         </div>
+        <div th:if="${error}" class="mb-3" style="margin-top: 30px">
+            <h1 class="alert alert-danger" th:text="${error}"></h1>
+            <h4>Click <a href="/bookAppointment">here</a> to start over.</h4>
+        </div>
         <div th:if="${bookingStatus == T(app.service.BookingService.BookingStatus).APPT_PENDING}">
             <h2>You already have an upcoming COVID-19 vaccination.</h2>
             <h5>Click <a href="/activity">here</a> to view details or cancel it.</h5>
