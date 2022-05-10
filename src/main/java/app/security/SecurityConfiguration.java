@@ -32,7 +32,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/activity/**").hasRole("USER")
                 .antMatchers("/").permitAll()
                 .antMatchers("/login").permitAll()
-                .and().formLogin().loginPage("/login").permitAll();
+
+                .and()
+                .requiresChannel().antMatchers("/**").requiresSecure()
+
+                .and()
+                .formLogin().loginPage("/login").permitAll();
     }
 
     @Bean
