@@ -2,6 +2,7 @@ package app.controller;
 
 import app.exception.UserAgeException;
 import app.exception.UserAlreadyExistException;
+import app.exception.WeakPasswordException;
 import app.service.IUserService;
 import app.persistence.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,10 @@ public class RegistrationController {
         } catch (final UserAgeException uaeEx) {
             ModelAndView mav = new ModelAndView("registration", "user", user);
             mav.addObject("error", "Age must be over 18 years to register.");
+            return mav;
+        } catch (final WeakPasswordException uaeEx) {
+            ModelAndView mav = new ModelAndView("registration", "user", user);
+            mav.addObject("error", uaeEx.getMessage());
             return mav;
         }
         ModelAndView mav = new ModelAndView("registration", "user", user);
