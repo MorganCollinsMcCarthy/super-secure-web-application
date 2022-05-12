@@ -1,5 +1,7 @@
 package app.persistence.model;
 
+import org.jboss.aerogear.security.otp.api.Base32;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
@@ -43,8 +45,17 @@ public class User {
 
     private String role;
 
+    private boolean isUsing2FA;
+
+    private String secret;
+
     @OneToMany(mappedBy = "user")
     private List<Appointment> appointments = new ArrayList<>();
+
+    public User() {
+        super();
+        this.secret = Base32.random();
+    }
 
     public int getId() {
         return id;
@@ -144,6 +155,22 @@ public class User {
 
     public List<Appointment> getAppointments() {
         return appointments;
+    }
+
+    public boolean isUsing2FA() {
+        return isUsing2FA;
+    }
+
+    public void setUsing2FA(boolean isUsing2FA) {
+        this.isUsing2FA = isUsing2FA;
+    }
+
+    public String getSecret() {
+        return secret;
+    }
+
+    public void setSecret(String secret) {
+        this.secret = secret;
     }
 
     public void setAppointments(List<Appointment> appointments) {
