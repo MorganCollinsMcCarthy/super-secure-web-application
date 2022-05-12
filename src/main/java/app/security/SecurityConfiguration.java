@@ -1,7 +1,10 @@
 package app.security;
 
+import app.security.google2fa.CustomAuthenticationProvider;
+import app.security.google2fa.CustomWebAuthenticationDetailsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -16,10 +19,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     UserDetailsService userDetailsService;
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);
-    }
+    @Autowired
+    private CustomWebAuthenticationDetailsSource authenticationDetailsSource;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -37,11 +38,22 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .requiresChannel().antMatchers("/**").requiresSecure()
 
                 .and()
-                .formLogin().loginPage("/login").permitAll();
+                .formLogin()
+                .loginPage("/login")
+                .authenticationDetailsSource(authenticationDetailsSource)
+                .permitAll();
     }
 
     @Bean
     public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public DaoAuthenticationProvider authProvider() {
+        CustomAuthenticationProvider authProvider = new CustomAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(encoder());
+        return authProvider;
     }
 }
