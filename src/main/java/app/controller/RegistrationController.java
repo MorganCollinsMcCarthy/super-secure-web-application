@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
 
 @Controller
 public class RegistrationController {
@@ -32,10 +33,13 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public ModelAndView registerUserAccount(@ModelAttribute("user") @Valid final User user, final HttpServletRequest request, final Errors errors) {
+    public ModelAndView registerUserAccount(@ModelAttribute("user") @Valid final User user, final HttpServletRequest request, final Errors errors) throws UnsupportedEncodingException {
 
         try {
             final User registered = userService.registerNewUserAccount(user);
+            ModelAndView mav = new ModelAndView("registration", "user", user);
+            mav.addObject("success", userService.generateQRUrl(registered));
+            return mav;
         } catch (final UserAlreadyExistException uaeEx) {
             ModelAndView mav = new ModelAndView("registration", "user", user);
             mav.addObject("error", "An account for that username/email already exists.");
@@ -49,8 +53,5 @@ public class RegistrationController {
             mav.addObject("error", uaeEx.getMessage());
             return mav;
         }
-        ModelAndView mav = new ModelAndView("registration", "user", user);
-        mav.addObject("success", "You registered successfully.");
-        return mav;
     }
 }

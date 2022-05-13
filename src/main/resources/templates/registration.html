@@ -36,7 +36,7 @@
             <div class="card-body p-4 p-md-5">
                 <h3 class="mb-3 pb-2 pb-md-0 mb-md-5">Registration Form</h3>
                 <div th:if="${success}">
-                    <h1 class="alert alert-success" th:text="${success}"></h1>
+                    <img class="alert alert-success" th:src="${success}">
                     <a class="btn btn-primary" th:href="@{/login}">Click here to login</a>
                 </div>
                 <div th:if="${error}" class="mb-3">

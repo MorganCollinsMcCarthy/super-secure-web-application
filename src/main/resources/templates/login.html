@@ -39,6 +39,8 @@
             <br>
             <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
             <br>
+            <input type="text" id="code" name="code" class="form-control" placeholder="Google Authenticator Verification Code">
+            <br>
             <button class="btn btn-success btn-block" type="submit"><i class="fas fa-sign-in-alt"></i> Login</button>
             <br>
             <div th:if="${param.error}">

@@ -11,6 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
@@ -25,6 +27,20 @@ public class UserService implements IUserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    public static String APP_NAME = "SuperSecureWebApplication";
+
+    public static String QR_PREFIX =
+            "https://chart.googleapis.com/chart?chs=200x200&chld=M%%7C0&cht=qr&chl=";
+
+    @Override
+    public String generateQRUrl(User user) throws UnsupportedEncodingException {
+        System.out.println("ss"+user.getSecret());
+        return QR_PREFIX + URLEncoder.encode(String.format(
+                        "otpauth://totp/%s:%s?secret=%s&issuer=%s",
+                        APP_NAME, user.getUserName(), user.getSecret(), APP_NAME),
+                "UTF-8");
+    }
 
     @Override
     public User registerNewUserAccount(User user){
@@ -51,6 +67,7 @@ public class UserService implements IUserService {
         newUser.setActive(true);
         newUser.setRole("ROLE_USER");
         newUser.setGender(user.getGender());
+        newUser.setUsing2FA(true);
 
         return userRepository.save(newUser);
     }
