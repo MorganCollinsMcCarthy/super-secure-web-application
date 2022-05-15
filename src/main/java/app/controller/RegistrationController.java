@@ -5,6 +5,8 @@ import app.exception.UserAlreadyExistException;
 import app.exception.WeakPasswordException;
 import app.service.IUserService;
 import app.persistence.model.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,10 +22,10 @@ import java.io.UnsupportedEncodingException;
 
 @Controller
 public class RegistrationController {
-
-
     @Autowired
     private IUserService userService;
+
+    private final Logger LOG = LogManager.getLogger(RegistrationController.class);
 
     @GetMapping("/registration")
     public String showRegistrationForm(Model model) {
@@ -37,6 +39,7 @@ public class RegistrationController {
 
         try {
             final User registered = userService.registerNewUserAccount(user);
+            LOG.trace("User \"" + user.getUserName() + "\" registered");
             ModelAndView mav = new ModelAndView("registration", "user", user);
             mav.addObject("success", userService.generateQRUrl(registered));
             return mav;

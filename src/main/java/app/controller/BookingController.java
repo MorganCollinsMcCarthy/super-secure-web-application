@@ -5,6 +5,9 @@ import app.persistence.model.Appointment;
 import app.persistence.model.Centre;
 import app.service.BookingService;
 import app.service.IBookingService;
+import app.service.IUserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +22,11 @@ import java.util.List;
 public class BookingController {
     @Autowired
     private IBookingService bookingService;
+
+    @Autowired
+    private IUserService userService;
+
+    private final Logger LOG = LogManager.getLogger(BookingController.class);
 
     @GetMapping("/bookAppointment")
     public String listVaccinationCentres(Model model) {
@@ -70,8 +78,10 @@ public class BookingController {
             throws CentreNotFoundException, IllegalBookingException {
         BookingService.BookingStatus bookingStatus = bookingService.checkBookingStatus();
 
-        if (bookingStatus.equals(BookingService.BookingStatus.FULLY_VACCINATED) || bookingStatus.equals(BookingService.BookingStatus.APPT_PENDING))
-            throw new IllegalBookingException(bookingStatus);
+        if (bookingStatus.equals(BookingService.BookingStatus.FULLY_VACCINATED) || bookingStatus.equals(BookingService.BookingStatus.APPT_PENDING)) {
+            model.addAttribute("error", new IllegalBookingException(bookingStatus).getMessage());
+            return "appointments";
+        }
 
         if(bookingService.checkIfSlotAlreadyBooked(time, date, centreId)) {
             model.addAttribute("error", new SlotAlreadyBookedException(time, date).getMessage());
@@ -79,6 +89,7 @@ public class BookingController {
         }
 
         bookingService.assignApptToAuthenticatedUser(centreId, date, time);
+        LOG.trace("User \"" + userService.getAuthenticatedUser().getUserName() + "\" booked appointment");
         try {
             response.sendRedirect("/activity");
         } catch (IOException e) {
