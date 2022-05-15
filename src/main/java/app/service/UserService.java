@@ -1,5 +1,6 @@
 package app.service;
 
+import app.exception.InvalidUserInputException;
 import app.exception.UserAgeException;
 import app.exception.WeakPasswordException;
 import app.persistence.model.User;
@@ -45,6 +46,7 @@ public class UserService implements IUserService {
 
     @Override
     public User registerNewUserAccount(User user){
+        validateInputs(user);
         if (userNameExists(user.getUserName())) {
             throw new UserAlreadyExistException("Email address already exists: "
                     + user.getUserName());
@@ -93,5 +95,55 @@ public class UserService implements IUserService {
         Pattern pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,32}$");
         Matcher matcher = pattern.matcher(password);
         return !matcher.matches();
+    }
+
+    private void validateInputs(User user) {
+        // Check Firstname
+        Pattern patternName = Pattern.compile("^([A-Za-z]){2,64}$");
+        Matcher matcherFirstname = patternName.matcher(user.getFirst_name());
+        if (!matcherFirstname.matches()) {
+            throw new InvalidUserInputException("Firstname must only contain letters and have a length between 2 and 64.");
+        }
+        // Check Surname
+        Matcher matcherSurname = patternName.matcher(user.getSurname());
+        if (!matcherSurname.matches()) {
+            throw new InvalidUserInputException("Surname must only contain letters and have a length between 2 and 64.");
+        }
+        // Check DOB
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate newDate = LocalDate.parse(user.getDate_of_birth(), formatter);
+        }
+        catch (Exception e) {
+            throw new InvalidUserInputException("Invalid Date of Birth.");
+        }
+        // Check Gender
+        if (!(user.getGender().equalsIgnoreCase("female") || user.getGender().equalsIgnoreCase("male"))) {
+            throw new InvalidUserInputException("Invalid gender.");
+        }
+        // Check Phone Number
+        Pattern patternNumber = Pattern.compile("^([0-9]){10}$");
+        Matcher matcherNumber = patternNumber.matcher(user.getPhone_number());
+        if (!matcherNumber.matches()) {
+            throw new InvalidUserInputException("Phone number must contain 10 digits.");
+        }
+        // Check Email
+        Pattern patternEmail = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+        Matcher matcherEmail = patternEmail.matcher(user.getUserName());
+        if (!matcherEmail.matches()) {
+            throw new InvalidUserInputException("Invalid email.");
+        }
+        // Check Nationality
+        Pattern patternNationality = Pattern.compile("^([A-Za-z]){2,64}$");
+        Matcher matcherNationality = patternNationality.matcher(user.getNationality());
+        if (!matcherNationality.matches()) {
+            throw new InvalidUserInputException("Nationality must only contain letters and have a length between 2 and 64.");
+        }
+        // Check PPSN
+        Pattern patternPPSN = Pattern.compile("^([0-9]{7})([A-Z]{1,2})$");
+        Matcher matcherPPSN = patternPPSN.matcher(user.getPpsn());
+        if (!matcherPPSN.matches()) {
+            throw new InvalidUserInputException("Invalid PPSN.");
+        }
     }
 }

@@ -1,5 +1,6 @@
 package app.controller;
 
+import app.exception.InvalidUserInputException;
 import app.exception.UserAgeException;
 import app.exception.UserAlreadyExistException;
 import app.exception.WeakPasswordException;
@@ -51,7 +52,7 @@ public class RegistrationController {
             ModelAndView mav = new ModelAndView("registration", "user", user);
             mav.addObject("error", "Age must be over 18 years to register.");
             return mav;
-        } catch (final WeakPasswordException uaeEx) {
+        } catch (final WeakPasswordException | InvalidUserInputException uaeEx) {
             ModelAndView mav = new ModelAndView("registration", "user", user);
             mav.addObject("error", uaeEx.getMessage());
             return mav;
