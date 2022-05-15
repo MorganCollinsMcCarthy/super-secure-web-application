@@ -16,6 +16,7 @@ import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -74,7 +75,7 @@ public class UserService implements IUserService {
 
     @Override
     public User getAuthenticatedUser(){
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        String username = ((Optional<User>) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).get().getUserName();
         User user = userRepository.findByUserName(username).get();
         return user;
     }
