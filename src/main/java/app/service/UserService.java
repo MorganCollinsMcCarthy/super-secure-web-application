@@ -51,8 +51,11 @@ public class UserService implements IUserService {
             throw new UserAlreadyExistException("Email address already exists: "
                     + user.getUserName());
         }
-        if (userUnderAge(user.getDate_of_birth())) {
-            throw new UserAgeException("Must be over 18");
+        if (checkUserAge(user.getDate_of_birth())==-1) {
+            throw new UserAgeException("Age must be over 18 years to register.");
+        }
+        if (checkUserAge(user.getDate_of_birth())==1) {
+            throw new UserAgeException("Age must be less than 122 years to register.");
         }
         if (weakPassword(user.getPassword())) {
             throw new WeakPasswordException("Password length must be between 8 and 32 and must contain at least 1 lowercase, 1 uppercase, 1 number and 1 symbol.");
@@ -85,10 +88,18 @@ public class UserService implements IUserService {
     private boolean userNameExists(String userName) {
         return userRepository.findByUserName(userName).isPresent();
     }
-    private boolean userUnderAge(String dob) {
+
+    // If return is 0 then valid, if -1 then under age, if 1 then over age
+    private int checkUserAge(String dob) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate newDate = LocalDate.parse(dob, formatter);
-        return Period.between(newDate, LocalDate.now()).getYears() < 18;
+        if (Period.between(newDate, LocalDate.now()).getYears() < 18) {
+            return -1;
+        }
+        else if(Period.between(newDate, LocalDate.now()).getYears() > 122) {
+            return 1;
+        }
+        return 0;
     }
 
     private boolean weakPassword(String password) {

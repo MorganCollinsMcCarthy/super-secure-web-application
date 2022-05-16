@@ -48,11 +48,7 @@ public class RegistrationController {
             ModelAndView mav = new ModelAndView("registration", "user", user);
             mav.addObject("error", "An account for that username/email already exists.");
             return mav;
-        } catch (final UserAgeException uaeEx) {
-            ModelAndView mav = new ModelAndView("registration", "user", user);
-            mav.addObject("error", "Age must be over 18 years to register.");
-            return mav;
-        } catch (final WeakPasswordException | InvalidUserInputException uaeEx) {
+        } catch (final UserAgeException | WeakPasswordException | InvalidUserInputException uaeEx) {
             ModelAndView mav = new ModelAndView("registration", "user", user);
             mav.addObject("error", uaeEx.getMessage());
             return mav;
