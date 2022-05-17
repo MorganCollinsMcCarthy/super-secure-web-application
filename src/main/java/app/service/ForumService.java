@@ -46,11 +46,11 @@ public class ForumService implements IForumService {
     }
 
     private void validateInput(String content) {
-        // Check that inputted question only contains characters, numbers, ', ., ?, and is less than 256 characters
-        Pattern pattern = Pattern.compile("^([A-Za-z0-9'.,? ]){0,340}$");
+        // Check that inputted question only contains characters, numbers, ', ., ?, and is between 2 and 240 characters
+        Pattern pattern = Pattern.compile("^([A-Za-z0-9'.,? ]){2,340}$");
         Matcher matcher = pattern.matcher(content);
         if (!matcher.matches()) {
-            throw new InvalidUserInputException("Invalid input. Please ensure your question is less than 340 characters and only contains letters, numbers and the symbols ', ., ? and ,.");
+            throw new InvalidUserInputException("Invalid input. Please ensure your question is between 2 and 340 characters and only contains letters, numbers and the symbols ', ., ? and ,.");
         }
     }
 }
