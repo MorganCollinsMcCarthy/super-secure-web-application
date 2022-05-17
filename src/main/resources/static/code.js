@@ -1,17 +1,21 @@
 function addReply(id) {
     var reply = document.getElementById("reply_"+id).value;
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "admin/forum/reply?id="+id+"&reply="+reply);
+    xhr.setRequestHeader(header, token);
     xhr.send()
 }
 
 function addPost() {
     var content = document.getElementById("content").value;
-
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
     var xhr = new XMLHttpRequest();
     //xhr.onload=insertPost;
     xhr.open("POST", "/forum/add");
-    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.setRequestHeader(header, token);
     xhr.send(content);
 }
 
@@ -33,8 +37,11 @@ function insertPost() {
 
 function updateAppointment(id, dose) {
     var xhr = new XMLHttpRequest();
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
     var vaccineReceived = document.getElementById("vaccineReceived_" + id).value;
     xhr.open("POST", "/admin/update?id="+id+"&vaccineReceived="+vaccineReceived);
+    xhr.setRequestHeader(header, token);
     xhr.send();
     if (vaccineReceived === "")
         document.getElementById("received_" + id).innerHTML="false";
