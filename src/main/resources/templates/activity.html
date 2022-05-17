@@ -52,7 +52,7 @@
                     <td th:text="${appointment.dose}"></td>
                     <td th:text="${appointment.received}"></td>
                     <td>
-                        <form th:if="${!appointment.received}" action="/activity/cancelAppointment" method="POST">
+                        <form th:if="${!appointment.received}" th:action="@{/activity/cancelAppointment}" method="POST">
                             <button class="btn btn-danger" type="submit">Cancel</button>
                         </form>
                     </td>

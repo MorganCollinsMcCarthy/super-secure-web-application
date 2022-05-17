@@ -34,7 +34,7 @@
 <div class="container" style="max-width: 600px; margin-top: 50px;">
     <h3 class="mb-3 pb-2 pb-md-0 mb-md-5" style="text-align: left">Login</h3>
     <div id="logreg-forms">
-        <form name="login" action="login" id="login" method="POST">
+        <form name="login" th:action="login" id="login" method="POST">
             <input type="text" id="inputEmail" name="username" class="form-control" placeholder="Email" required autofocus>
             <br>
             <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
