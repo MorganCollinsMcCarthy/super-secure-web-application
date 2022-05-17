@@ -9,16 +9,16 @@
 | **Student 2** | Morgan Collins McCarthy  18761429 |  
 
 # Login Credentials
-Two accounts without 2fa are created when the applications starts up to allow for testing.
-**Admin:**
-Email: admin@gmail.com
-Password: admin
-Google Authenticator Verification Code: Leave blank
-
-**User:**
-Email: user@gmail.com
-Password: user
-Google Authenticator Verification Code: Leave blank
+Two accounts without 2fa are created when the applications starts up to allow for testing. <br />
+**Admin:** <br />
+Email: admin@gmail.com <br />
+Password: admin <br />
+Google Authenticator Verification Code: Leave blank <br />
+<br />
+**User:** <br />
+Email: user@gmail.com <br />
+Password: user <br />
+Google Authenticator Verification Code: Leave blank <br />
 
 # Contributions 
 Iva Mechkarova 18345221 (50%)
