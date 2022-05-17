@@ -3,7 +3,6 @@
 | Details   |     | 
 | --- | --- | 
 | **Module** |  COMP47660: Secure Software Engineering |
-| **Assignment** |  Assignment 1 |
 | **Group** | Super Secure Web Application |
 | **Student 1** | Iva Mechkarova 18345221 | 
 | **Student 2** | Morgan Collins McCarthy  18761429 |  
