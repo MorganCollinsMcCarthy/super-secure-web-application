@@ -35,6 +35,9 @@
     </div>
 </nav>
 <div class="container px-4 px-lg-5">
+        <div th:if="${error}" class="mb-3">
+            <h1 class="alert alert-danger" th:text="${error}"></h1>
+        </div>
             <div class="row d-flex justify-content-center">
                 <div class="col-md-12 col-lg-10 col-xl-8">
                     <div class="card">
@@ -103,12 +106,14 @@
                                              alt="avatar" width="65" height="65" />
                                         <div class="flex-grow-1 flex-shrink-1">
                                             <div>
-                                                <textarea id="content" class="form-control" rows="4"
-                                                          style="background: #fff;"></textarea>
-                                                <div class="float-end mt-2 mb-2 pt-1">
-                                                    <button th:onclick="|addPost()|" type="button"
-                                                            class="btn btn-primary btn-sm">Create Post</button>
-                                                </div>
+                                                <form th:action="@{/forum/add}" method="POST" enctype="utf8">
+                                                    <textarea id="content" name="content" class="form-control" maxlength="340" rows="4"
+                                                              style="background: #fff;"></textarea>
+                                                    <div class="float-end mt-2 mb-2 pt-1">
+                                                        <button type="submit"
+                                                                class="btn btn-primary btn-sm">Create Post</button>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>

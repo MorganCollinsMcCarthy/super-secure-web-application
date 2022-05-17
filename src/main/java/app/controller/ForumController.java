@@ -1,6 +1,6 @@
 package app.controller;
 
-import app.persistence.model.Post;
+import app.exception.InvalidUserInputException;
 import app.service.IForumService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,9 +24,14 @@ public class ForumController {
     }
 
     @PostMapping("/forum/add")
-    public @ResponseBody
-    Post addPost(@RequestBody String content) {
-        return forumService.createNewPost(content);
+    public String addPost(@RequestParam(value="content") String content, Model model) {
+        try {
+            forumService.createNewPost(content);
+        } catch (InvalidUserInputException e) {
+            model.addAttribute("error", e.getMessage());
+        }
+        model.addAttribute("posts",forumService.findAll());
+        return "forum.html";
     }
 
     @PostMapping("admin/forum/reply")

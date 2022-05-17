@@ -1,5 +1,6 @@
 package app.service;
 
+import app.exception.InvalidUserInputException;
 import app.persistence.model.Post;
 import app.persistence.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 @Transactional
@@ -22,6 +25,7 @@ public class ForumService implements IForumService {
 
     @Override
     public Post createNewPost(String content){
+        validateInput(content);
         Post post = new Post();
         post.setContent(content);
         if(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)
@@ -41,4 +45,12 @@ public class ForumService implements IForumService {
         return postRepository.findAll();
     }
 
+    private void validateInput(String content) {
+        // Check that inputted question only contains characters, numbers, ', ., ?, and is less than 256 characters
+        Pattern pattern = Pattern.compile("^([A-Za-z0-9'.,? ]){0,340}$");
+        Matcher matcher = pattern.matcher(content);
+        if (!matcher.matches()) {
+            throw new InvalidUserInputException("Invalid input. Please ensure your question is less than 340 characters and only contains letters, numbers and the symbols ', ., ? and ,.");
+        }
+    }
 }
