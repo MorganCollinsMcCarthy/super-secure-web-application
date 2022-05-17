@@ -8,6 +8,18 @@
 | **Student 1** | Iva Mechkarova 18345221 | 
 | **Student 2** | Morgan Collins McCarthy  18761429 |  
 
+# Login Credentials
+Two accounts without 2fa are created when the applications starts up to allow for testing.
+**Admin:**
+Email: admin@gmail.com
+Password: admin
+Google Authenticator Verification Code: Leave blank
+
+**User:**
+Email: user@gmail.com
+Password: user
+Google Authenticator Verification Code: Leave blank
+
 # Contributions 
 Iva Mechkarova 18345221 (50%)
 - Registered users can book a vaccination appointment.
